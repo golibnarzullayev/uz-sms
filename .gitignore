@@ -3,3 +3,6 @@ dist
 *.log
 .env
 .DS_Store
+
+# local scratch — examples/demo.mjs may hold real credentials
+examples/

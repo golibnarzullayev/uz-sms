@@ -1,6 +1,6 @@
 {
   "name": "uz-sms",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Unified SMS client for Uzbekistan providers: Eskiz, Play Mobile, SMS.uz",
   "license": "MIT",
   "author": "golibnarzullayev",

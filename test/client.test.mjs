@@ -21,3 +21,18 @@ test("getBalance: throws on providers without balance API", () => {
   });
   assert.throws(() => client.getBalance(), SmsConfigError);
 });
+
+test("createSmsClient: octotelecom provider", () => {
+  const client = createSmsClient({
+    provider: "octotelecom",
+    octotelecom: { clientId: "c", username: "u", password: "p", from: "TEST" },
+  });
+  assert.equal(client.providerName, "octotelecom");
+});
+
+test("createSmsClient: octotelecom missing config throws", () => {
+  assert.throws(
+    () => createSmsClient({ provider: "octotelecom" }),
+    SmsConfigError,
+  );
+});

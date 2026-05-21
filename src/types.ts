@@ -1,5 +1,5 @@
 /** Supported provider identifiers. */
-export type ProviderName = "eskiz" | "playmobile" | "smsuz";
+export type ProviderName = "eskiz" | "playmobile" | "smsuz" | "octotelecom";
 
 /** Parameters for a single outgoing SMS. */
 export interface SendSmsParams {
@@ -76,6 +76,29 @@ export interface SmsUzConfig {
   };
 }
 
+/**
+ * Octotelecom credentials & options.
+ *
+ * Octotelecom exposes a JSONv2 endpoint at
+ * `{baseUrl}/{clientId}/json2/simple` with HTTP Basic auth.
+ */
+export interface OctotelecomConfig {
+  /** Client id — a path segment in the JSONv2 endpoint. */
+  clientId: string;
+  username: string;
+  password: string;
+  /** Default alpha-name / sender. */
+  from?: string;
+  /** Default delivery-report callback URL. Overridable per message. */
+  callbackUrl?: string;
+  /** Tag attached to every message, for provider-side reporting. Default: `uz-sms`. */
+  tag?: string;
+  /** Message time-to-live in seconds. Default: 300. */
+  ttl?: number;
+  /** Override API base. Default: https://api.octotelecom.uz */
+  baseUrl?: string;
+}
+
 /** Top-level client config. Exactly one provider is active per client. */
 export interface SmsClientConfig {
   /** Which provider this client sends through. */
@@ -85,4 +108,5 @@ export interface SmsClientConfig {
   eskiz?: EskizConfig;
   playmobile?: PlayMobileConfig;
   smsuz?: SmsUzConfig;
+  octotelecom?: OctotelecomConfig;
 }

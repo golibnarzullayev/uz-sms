@@ -1,5 +1,6 @@
 import { SmsConfigError } from "./errors.js";
 import { EskizProvider } from "./providers/eskiz.js";
+import { OctotelecomProvider } from "./providers/octotelecom.js";
 import { PlayMobileProvider } from "./providers/playmobile.js";
 import { SmsUzProvider } from "./providers/smsuz.js";
 import type {
@@ -69,6 +70,14 @@ function buildProvider(config: SmsClientConfig): SmsProvider {
       }
       return new SmsUzProvider(config.smsuz, timeoutMs);
 
+    case "octotelecom":
+      if (!config.octotelecom) {
+        throw new SmsConfigError(
+          'Missing "octotelecom" config for provider "octotelecom"',
+        );
+      }
+      return new OctotelecomProvider(config.octotelecom, timeoutMs);
+
     default: {
       const exhaustive: never = config.provider;
       throw new SmsConfigError(`Unknown provider: ${String(exhaustive)}`);
@@ -90,5 +99,6 @@ export type {
   EskizConfig,
   PlayMobileConfig,
   SmsUzConfig,
+  OctotelecomConfig,
   SmsClientConfig,
 } from "./types.js";

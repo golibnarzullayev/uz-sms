@@ -2,12 +2,11 @@
 
 # uz-sms
 
-**Unified SMS client for Uzbekistan providers — one API for [Eskiz](https://eskiz.uz), [Play Mobile](https://playmobile.uz), and [SMS.uz](https://sms.uz).**
+**Unified SMS client for Uzbekistan providers — one API for [Eskiz](https://eskiz.uz), [Play Mobile](https://playmobile.uz), [SMS.uz](https://sms.uz), and [Octotelecom](https://octotelecom.uz).**
 
 [![npm version](https://img.shields.io/npm/v/uz-sms.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms)
 [![npm downloads](https://img.shields.io/npm/dm/uz-sms.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms)
 [![CI](https://img.shields.io/github/actions/workflow/status/golibnarzullayev/uz-sms/ci.yml?branch=main&style=flat-square)](https://github.com/golibnarzullayev/uz-sms/actions)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/uz-sms?style=flat-square)](https://bundlephobia.com/package/uz-sms)
 [![license](https://img.shields.io/npm/l/uz-sms.svg?style=flat-square)](./LICENSE)
 [![types](https://img.shields.io/npm/types/uz-sms.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms)
 
@@ -26,7 +25,7 @@ await sms.send({ to: "+998 90 123 45 67", text: "Salom!" });
 
 ## Features
 
-- 📱 **Three providers, one API** — Eskiz, Play Mobile, SMS.uz behind a single interface.
+- 📱 **Four providers, one API** — Eskiz, Play Mobile, SMS.uz, Octotelecom behind a single interface.
 - 🔁 **Drop-in swappable** — change `provider`, keep the rest of your code.
 - 🧩 **Fully typed** — ships `.d.ts`, strict mode, exhaustive provider checks.
 - 📦 **ESM + CJS** — works with `import` and `require`.
@@ -43,6 +42,7 @@ await sms.send({ to: "+998 90 123 45 67", text: "Salom!" });
   - [Eskiz](#eskiz)
   - [Play Mobile](#play-mobile)
   - [SMS.uz](#smsuz)
+  - [Octotelecom](#octotelecom)
 - [Phone numbers](#phone-numbers)
 - [API reference](#api-reference)
 - [Error handling](#error-handling)
@@ -107,6 +107,7 @@ const { createSmsClient } = require("uz-sms");
 | Eskiz        | `"eskiz"`        | Bearer token |       ✅       |      ✅       | `sent`      |
 | Play Mobile  | `"playmobile"`   | HTTP Basic   |       ❌       |      ❌       | `queued`    |
 | SMS.uz       | `"smsuz"`        | Query params |       ❌       |      ❌       | `sent`      |
+| Octotelecom  | `"octotelecom"`  | HTTP Basic   |       ❌       |      ✅       | `sent`      |
 
 ### Eskiz
 
@@ -173,6 +174,30 @@ await sms.send({ to: "998901234567", text: "Salom!" });
 SMS.uz is a plain HTTP GET gateway. Defaults match the common
 `login/password/phone/text/from` shape; use `params` to remap field names.
 
+### Octotelecom
+
+```ts
+const sms = createSmsClient({
+  provider: "octotelecom",
+  octotelecom: {
+    clientId: "your-client-id",
+    username: "your-username",
+    password: "secret",
+    from: "ALPHANAME",                       // default alpha-name / sender
+    callbackUrl: "https://your-app.uz/dlr",  // optional delivery-report webhook
+    tag: "uz-sms",                           // optional, default "uz-sms"
+    ttl: 300,                                // optional message TTL in seconds
+    baseUrl: "https://api.octotelecom.uz",   // optional override
+  },
+});
+
+await sms.send({ to: "998901234567", text: "Salom!" });
+```
+
+Octotelecom uses the JSONv2 endpoint `{baseUrl}/{clientId}/json2/simple` with
+HTTP Basic auth. It may return HTTP 200 with an `error_text` field — that case
+is detected and surfaced as `SmsProviderError`.
+
 ## Phone numbers
 
 `to` is normalized before every request. All of these resolve to `998901234567`:
@@ -204,11 +229,12 @@ matching provider config block is missing.
 
 ```ts
 interface SmsClientConfig {
-  provider: "eskiz" | "playmobile" | "smsuz";
+  provider: "eskiz" | "playmobile" | "smsuz" | "octotelecom";
   timeoutMs?: number;        // per-request timeout, default 15000
   eskiz?: EskizConfig;
   playmobile?: PlayMobileConfig;
   smsuz?: SmsUzConfig;
+  octotelecom?: OctotelecomConfig;
 }
 ```
 
@@ -231,7 +257,7 @@ interface SendSmsParams {
 }
 
 interface SendSmsResult {
-  provider: "eskiz" | "playmobile" | "smsuz";
+  provider: "eskiz" | "playmobile" | "smsuz" | "octotelecom";
   messageId?: string;   // provider-side id, when available
   status: "sent" | "queued" | "failed";
   raw: unknown;         // untouched provider response
