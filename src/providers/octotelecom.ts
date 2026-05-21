@@ -35,7 +35,7 @@ export class OctotelecomProvider implements SmsProvider {
       // Octotelecom expects the number without a leading "+".
       phone_number: normalizePhone(params.to),
       extra_id: extraId,
-      tag: this.config.tag ?? "uz-sms",
+      tag: this.config.tag ?? "uz-sms-glmv",
       channels: ["sms"],
       channel_options: {
         sms: {
