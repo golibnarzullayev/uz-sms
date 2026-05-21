@@ -1,14 +1,14 @@
 <div align="center">
 
-# uz-sms
+# uz-sms-glmv
 
 **Unified SMS client for Uzbekistan providers — one API for [Eskiz](https://eskiz.uz), [Play Mobile](https://playmobile.uz), [SMS.uz](https://sms.uz), and [Octotelecom](https://octotelecom.uz).**
 
-[![npm version](https://img.shields.io/npm/v/uz-sms.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms)
-[![npm downloads](https://img.shields.io/npm/dm/uz-sms.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms)
+[![npm version](https://img.shields.io/npm/v/uz-sms-glmv.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms-glmv)
+[![npm downloads](https://img.shields.io/npm/dm/uz-sms-glmv.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms-glmv)
 [![CI](https://img.shields.io/github/actions/workflow/status/golibnarzullayev/uz-sms/ci.yml?branch=main&style=flat-square)](https://github.com/golibnarzullayev/uz-sms/actions)
-[![license](https://img.shields.io/npm/l/uz-sms.svg?style=flat-square)](./LICENSE)
-[![types](https://img.shields.io/npm/types/uz-sms.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms)
+[![license](https://img.shields.io/npm/l/uz-sms-glmv.svg?style=flat-square)](./LICENSE)
+[![types](https://img.shields.io/npm/types/uz-sms-glmv.svg?style=flat-square)](https://www.npmjs.com/package/uz-sms-glmv)
 
 </div>
 
@@ -54,15 +54,15 @@ await sms.send({ to: "+998 90 123 45 67", text: "Salom!" });
 ## Install
 
 ```bash
-npm install uz-sms
+npm install uz-sms-glmv
 ```
 
 ```bash
-pnpm add uz-sms
+pnpm add uz-sms-glmv
 ```
 
 ```bash
-yarn add uz-sms
+yarn add uz-sms-glmv
 ```
 
 > **Requirements:** Node.js >= 18 (relies on the global `fetch`).
@@ -70,7 +70,7 @@ yarn add uz-sms
 ## Quick start
 
 ```ts
-import { createSmsClient } from "uz-sms";
+import { createSmsClient } from "uz-sms-glmv";
 
 const sms = createSmsClient({
   provider: "eskiz",
@@ -97,7 +97,7 @@ console.log(result);
 CommonJS works too:
 
 ```js
-const { createSmsClient } = require("uz-sms");
+const { createSmsClient } = require("uz-sms-glmv");
 ```
 
 ## Providers
@@ -215,7 +215,7 @@ else throws [`SmsError`](#error-handling).
 `normalizePhone` is exported standalone for form validation:
 
 ```ts
-import { normalizePhone } from "uz-sms";
+import { normalizePhone } from "uz-sms-glmv";
 
 normalizePhone("+998 90 123 45 67"); // "998901234567"
 ```
@@ -281,7 +281,7 @@ Every failure is a typed subclass of `SmsError`.
 `SmsProviderError` carries debugging context:
 
 ```ts
-import { SmsProviderError } from "uz-sms";
+import { SmsProviderError } from "uz-sms-glmv";
 
 try {
   await sms.send({ to: "998901234567", text: "hi" });
@@ -299,7 +299,7 @@ try {
 ### Choose a provider from an environment variable
 
 ```ts
-import { createSmsClient, type ProviderName } from "uz-sms";
+import { createSmsClient, type ProviderName } from "uz-sms-glmv";
 
 const sms = createSmsClient({
   provider: process.env.SMS_PROVIDER as ProviderName,
@@ -316,7 +316,7 @@ const sms = createSmsClient({
 
 ```ts
 import express from "express";
-import { createSmsClient, SmsError } from "uz-sms";
+import { createSmsClient, SmsError } from "uz-sms-glmv";
 
 const sms = createSmsClient({
   provider: "eskiz",
