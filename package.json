@@ -1,7 +1,7 @@
 {
   "name": "uz-sms",
   "version": "0.1.2",
-  "description": "Unified SMS client for Uzbekistan providers: Eskiz, Play Mobile, SMS.uz",
+  "description": "Unified SMS client for Uzbekistan providers: Eskiz, Play Mobile, SMS.uz, Octotelecom",
   "license": "MIT",
   "author": "golibnarzullayev",
   "repository": {
@@ -34,17 +34,24 @@
     "uzbekistan",
     "eskiz",
     "playmobile",
-    "sms.uz"
+    "sms.uz",
+    "octotelecom"
   ],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
-    "test": "npm run build && node --test",
-    "prepublishOnly": "npm run build"
+    "test": "pnpm run build && node --test",
+    "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

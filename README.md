@@ -352,14 +352,16 @@ runtimes with `Buffer` work; pure-browser use is not a supported target.
 
 ## Contributing
 
+This repo uses [pnpm](https://pnpm.io).
+
 ```bash
 git clone https://github.com/golibnarzullayev/uz-sms.git
 cd uz-sms
-npm install
+pnpm install
 
-npm run typecheck   # tsc --noEmit
-npm test            # build, then node --test
-npm run build       # tsup → dist/ (ESM + CJS + d.ts)
+pnpm run typecheck   # tsc --noEmit
+pnpm test            # build, then node --test
+pnpm run build       # tsup → dist/ (ESM + CJS + d.ts)
 ```
 
 Issues and PRs welcome at
